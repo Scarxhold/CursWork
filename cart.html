@@ -1,0 +1,789 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш кошик</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+            color: #f1f1f1;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            padding: 20px 10px;
+            flex: 1;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 10px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+            .navbar-brand:hover {
+                color: #00d4ff !important;
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+            }
+
+        .back-btn {
+            margin-left: 10px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border: 1px solid #00d4ff;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+        }
+
+            .back-btn:hover {
+                background: linear-gradient(145deg, #3a3a3a, #262626);
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+                border-color: #ff4d4d;
+            }
+
+        .cart-item {
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+            .cart-item:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 212, 255, 0.3);
+            }
+
+            .cart-item .item-details {
+                flex-grow: 1;
+            }
+
+                .cart-item .item-details p {
+                    margin: 3px 0;
+                    font-size: 0.9rem;
+                }
+
+            .cart-item .details-btn {
+                background: linear-gradient(145deg, #00d4ff, #007bff);
+                border: none;
+                color: #ffffff;
+                padding: 5px 10px;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+            }
+
+                .cart-item .details-btn:hover {
+                    background: linear-gradient(145deg, #007bff, #00d4ff);
+                    transform: translateY(-1px);
+                    box-shadow: 0 3px 10px rgba(0, 212, 255, 0.8);
+                }
+
+            .cart-item .remove-btn {
+                background: linear-gradient(145deg, #ff4d4d, #ff8c00);
+                border: none;
+                color: #ffffff;
+                padding: 5px 10px;
+                border-radius: 15px;
+                transition: all 0.3s ease;
+            }
+
+                .cart-item .remove-btn:hover {
+                    background: linear-gradient(145deg, #ff8c00, #ff4d4d);
+                    transform: translateY(-1px);
+                    box-shadow: 0 3px 10px rgba(255, 77, 77, 0.8);
+                }
+
+        .cart-total {
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            padding: 10px;
+            margin-top: 15px;
+            text-align: right;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+            .cart-total h4 {
+                margin: 0;
+                font-size: 1.2rem;
+            }
+
+        .checkout-btn {
+            background: linear-gradient(145deg, #00d4ff, #007bff);
+            border: none;
+            color: #ffffff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+            .checkout-btn:hover {
+                background: linear-gradient(145deg, #007bff, #00d4ff);
+                transform: translateY(-2px) scale(1.03);
+                box-shadow: 0 3px 15px rgba(0, 212, 255, 0.8);
+            }
+
+        .clear-cart-btn {
+            background: linear-gradient(145deg, #ff4d4d, #ff8c00);
+            border: none;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+            .clear-cart-btn:hover {
+                background: linear-gradient(145deg, #ff8c00, #ff4d4d);
+                transform: translateY(-1px);
+                box-shadow: 0 3px 10px rgba(255, 77, 77, 0.8);
+            }
+
+        .recommendations {
+            margin-top: 20px;
+        }
+
+            .recommendations h3 {
+                text-align: center;
+                margin-bottom: 15px;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+
+        .recommendation-card {
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.9s ease-in-out;
+            cursor: pointer;
+        }
+
+            .recommendation-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 212, 255, 0.3);
+            }
+
+            .recommendation-card img {
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 0.25rem;
+                margin-bottom: 5px;
+                border: 1px solid #00d4ff;
+            }
+
+            .recommendation-card h5 {
+                margin: 5px 0;
+                font-size: 1rem;
+                color: #ffffff;
+            }
+
+            .recommendation-card p {
+                margin: 3px 0;
+                font-size: 0.9rem;
+                color: #cccccc;
+            }
+
+        .cart-icon, .favorites-icon {
+            color: #ffffff;
+            margin-left: 10px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease, color 0.3s ease;
+        }
+
+            .cart-icon:hover, .favorites-icon:hover {
+                transform: scale(1.1);
+                color: #00d4ff;
+            }
+
+            .cart-icon .badge, .favorites-icon .badge {
+                background-color: #ff4d4d;
+                color: white;
+                font-size: 0.7em;
+                padding: 3px 6px;
+                border-radius: 50%;
+                position: absolute;
+                top: -4px;
+                right: -8px;
+                animation: pop 0.3s ease;
+            }
+
+        .news-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+            .news-section h3 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+
+        .news-card {
+            background: linear-gradient(145deg, #2c2c2c, #1e1e1e);
+            border-radius: 0.5rem;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .news-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 12px rgba(0, 212, 255, 0.3);
+            }
+
+            .news-card img {
+                width: 100%;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 0.25rem;
+                margin-bottom: 5px;
+                border: 1px solid #00d4ff;
+            }
+
+            .news-card h5 {
+                margin: 5px 0;
+                font-size: 1rem;
+                color: #ffffff;
+            }
+
+            .news-card p {
+                margin: 3px 0;
+                font-size: 0.9rem;
+                color: #cccccc;
+            }
+
+        .reviews-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+            .reviews-section h3 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                text-transform: uppercase;
+                color: #ffffff;
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+
+        .review-card {
+            background: linear-gradient(145deg, #2c2c2c, #1e1e1e);
+            border-radius: 0.5rem;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+            .review-card h5 {
+                margin: 5px 0;
+                font-size: 1rem;
+                color: #00d4ff;
+            }
+
+            .review-card p {
+                margin: 3px 0;
+                font-size: 0.9rem;
+                color: #cccccc;
+            }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 10px;
+            text-align: center;
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            padding: 8px;
+            border-top: 1px solid #00d4ff;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+            .footer p {
+                margin: 2px 0;
+                font-size: 0.7rem;
+            }
+
+            .footer a {
+                color: #00d4ff;
+                transition: color 0.3s ease;
+                margin: 0 4px;
+                font-size: 0.7rem;
+            }
+
+                .footer a:hover {
+                    color: #ff4d4d;
+                }
+
+        .social-icons {
+            margin-top: 4px;
+        }
+
+            .social-icons a {
+                font-size: 0.9rem;
+                margin: 0 6px;
+                transition: transform 0.3s ease, color 0.3s ease;
+            }
+
+                .social-icons a:hover {
+                    transform: scale(1.1);
+                    color: #00d4ff;
+                }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> <!-- Додано Bootstrap JS -->
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="catalog.html" class="btn btn-secondary back-btn">← Назад</a>
+            <a class="navbar-brand" href="#">
+                Ваш кошик
+                <i class="fas fa-shopping-cart cart-icon" onclick="window.location.href='cart.html'"></i>
+                <i class="fas fa-heart favorites-icon" onclick="window.location.href='favorites.html'"></i>
+                <button class="clear-cart-btn ms-2" onclick="localStorage.removeItem('cart'); location.reload();">Очистити кошик</button>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <h4>Загалом: <span id="total-price">0</span> грн</h4>
+            <button class="checkout-btn" data-bs-toggle="modal" data-bs-target="#checkoutModal">Оформити угоду</button>
+        </div>
+
+        <div class="recommendations">
+            <h3>Рекомендації для вас</h3>
+            <div class="row" id="recommendations-container"></div>
+        </div>
+
+        <div class="news-section">
+            <h3>Останні новини</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="https://hips.hearstapps.com/hmg-prod/images/2024-bmw-x5-m60i-102-6602d48787fb7.jpg?crop=0.772xw:0.651xh;0.0897xw,0.171xh&resize=2048:*" alt="Новина 1">
+                        <h5>Новий BMW X5 2025</h5>
+                        <p>Дізнайтесь про оновлення моделі BMW X5 у 2025 році.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Mercedes-Benz_X254_1X7A6343.jpg/1200px-Mercedes-Benz_X254_1X7A6343.jpg" alt="Новина 2">
+                        <h5>Акція на Mercedes GLC</h5>
+                        <p>Спеціальна пропозиція на Mercedes GLC до кінця місяця!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="news-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg/960px-2021_Tesla_Model_S_P2_Long_Range_front_right_view.jpg" alt="Новина 3">
+                        <h5>Tesla Model S тест-драйв</h5>
+                        <p>Запишіться на тест-драйв нової моделі Tesla Model S.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <h3>Відгуки клієнтів</h3>
+            <div class="review-card">
+                <h5>Олександр, Київ</h5>
+                <p>Дуже задоволений покупкою BMW X5! Салон надав чудовий сервіс, швидко оформили всі документи.</p>
+            </div>
+            <div class="review-card">
+                <h5>Марія, Львів</h5>
+                <p>Купила Tesla Model S, машина супер! Дякую за професійну консультацію та знижку.</p>
+            </div>
+            <div class="review-card">
+                <h5>Іван, Одеса</h5>
+                <p>Mercedes GLC виправдав усі очікування. Дуже зручно, що можна записатися на тест-драйв онлайн.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-center p-3">
+        <div>
+            <p>САЛОН АВТОМОБІЛІВ</p>
+            <p>Київ, Україна</p>
+            <p>Phone: +380 484 7851</p>
+            <p>Email: info@autosalon.ua</p>
+        </div>
+        <div>
+            <p>Корисні посилання</p>
+            <a href="index.html">Головна</a> |
+            <a href="#">Про нас</a> |
+            <a href="#">Послуги</a> |
+            <a href="#">Умови користування</a> |
+            <a href="#">Політика конфіденційності</a>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+        <p>© 2024 Auto Salon. All rights reserved.</p>
+    </footer>
+
+    <!-- Модальне вікно для введення даних клієнта -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="background: linear-gradient(145deg, #1e1e1e, #2c2c2c); color: #f1f1f1;">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="checkoutModalLabel">Введіть ваші дані</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="checkoutForm">
+                        <div class="mb-3">
+                            <label for="customerName" class="form-label">Ім'я</label>
+                            <input type="text" class="form-control" id="customerName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="customerEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerPhone" class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" id="customerPhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerAddress" class="form-label">Адреса</label>
+                            <input type="text" class="form-control" id="customerAddress">
+                        </div>
+                        <div class="mb-3">
+                            <label for="customerCity" class="form-label">Місто</label>
+                            <input type="text" class="form-control" id="customerCity">
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardNumber" class="form-label">Номер картки</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardExpiry" class="form-label">Дата закінчення (MM/YY)</label>
+                            <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cardCvv" class="form-label">CVV</label>
+                            <input type="text" class="form-control" id="cardCvv" placeholder="123" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                    <button type="button" class="btn checkout-btn" onclick="submitCheckout()">Підтвердити</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальне вікно для введення даних клієнта -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background: linear-gradient(145deg, #1e1e1e, #2c2c2c); color: #f1f1f1;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">Введіть ваші дані</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="checkoutForm">
+                    <div class="mb-3">
+                        <label for="customerName" class="form-label">Ім'я</label>
+                        <input type="text" class="form-control" id="customerName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="customerEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="customerPhone" class="form-label">Телефон</label>
+                        <input type="tel" class="form-control" id="customerPhone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cardNumber" class="form-label">Номер картки</label>
+                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cardExpiry" class="form-label">Дата закінчення (MM/YY)</label>
+                        <input type="text" class="form-control" id="cardExpiry" placeholder="MM/YY" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cardCvv" class="form-label">CVV</label>
+                        <input type="text" class="form-control" id="cardCvv" placeholder="123" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                <button type="button" class="btn checkout-btn" onclick="submitCheckout()">Підтвердити</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        $(document).ready(function () {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let cartItems = $('#cart-items');
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartItems.append('<p class="text-center">Ваш кошик порожній.</p>');
+            } else {
+                cart.forEach((item, index) => {
+                    totalPrice += item.price;
+                    cartItems.append(`
+                                <div class="cart-item">
+                                    <div class="item-details">
+                                        <p><strong>Назва:</strong> ${item.name}</p>
+                                        <p><strong>Рік:</strong> ${item.year || 'Невідомо'}</p>
+                                        <p><strong>Ціна:</strong> ${item.price.toLocaleString('uk-UA')} грн</p>
+                                    </div>
+                                    <button class="details-btn" onclick="window.location.href='details.html?code=${item.code || index}'">Подивитися деталі</button>
+                                    <button class="remove-btn" onclick="removeItem(${index})">Видалити</button>
+                                </div>
+                            `);
+                });
+            }
+
+            $('#total-price').text(totalPrice.toLocaleString('uk-UA'));
+
+            loadRecommendations();
+
+            updateCartIcon();
+            updateFavoritesIcon();
+
+            // Відкриття модального вікна при натисканні на "Оформити угоду"
+            $('.checkout-btn').click(function () {
+                if (cart.length === 0) {
+                    alert('Ваш кошик порожній!');
+                } else {
+                    $('#checkoutModal').modal('show');
+                }
+            });
+        });
+
+
+        function submitCheckout() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            if (cart.length === 0) {
+                alert('Ваш кошик порожній!');
+                return;
+            }
+
+            let customerName = $('#customerName').val();
+            let customerEmail = $('#customerEmail').val();
+            let customerPhone = $('#customerPhone').val();
+            let cardNumber = $('#cardNumber').val();
+            let cardExpiry = $('#cardExpiry').val();
+            let cardCvv = $('#cardCvv').val();
+
+            if (!customerName || !customerEmail || !customerPhone || !cardNumber || !cardExpiry || !cardCvv) {
+                alert('Будь ласка, заповніть усі обов’язкові поля (Ім’я, Email, Телефон, Номер картки, Дата закінчення, CVV)!');
+                return;
+            }
+
+            if (!/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber)) {
+                alert('Номер картки має бути у форматі "1234 5678 9012 3456"');
+                return;
+            }
+            if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(cardExpiry)) {
+                alert('Дата закінчення має бути у форматі "MM/YY"');
+                return;
+            }
+            if (!/^\d{3}$/.test(cardCvv)) {
+                alert('CVV має складатися з 3 цифр');
+                return;
+            }
+
+            let promises = cart.map(item => {
+                let transactionData = {
+                    customerName: customerName,
+                    customerEmail: customerEmail,
+                    customerPhone: customerPhone,
+                    vehicleCode: item.code,
+                    price: item.price,
+                    transactionDate: new Date().toISOString()
+                };
+
+                console.log('Sending request to https://localhost:7211/api/transactions with data:', transactionData);
+                return fetch('https://localhost:7211/api/transactions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Відправляємо cookies автентифікації
+                    body: JSON.stringify(transactionData)
+                })
+                    .then(res => {
+                        console.log('Response status:', res.status);
+                        if (!res.ok) {
+                            return res.text().then(text => {
+                                console.log('Response text:', text);
+                                throw new Error(`Помилка ${res.status}: ${text}`);
+                            });
+                        }
+                        return res.json();
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                        throw error;
+                    });
+            });
+
+            Promise.all(promises)
+                .then(data => {
+                    $('#checkoutModal').modal('hide');
+                    alert('Дякуємо за замовлення! Ми зв’яжемося з вами для оформлення угоди.');
+                    localStorage.removeItem('cart');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Помилка при створенні транзакції:', error);
+                    alert('Помилка при створенні транзакції: ' + error.message);
+                });
+        }
+
+        function loadRecommendations() {
+            $.ajax({
+                url: 'https://localhost:7211/api/vehicles',
+                method: 'GET',
+                success: function (response) {
+                    let recommendationsContainer = $('#recommendations-container');
+                    recommendationsContainer.empty();
+                    let vehicles = response.data || response || [];
+                    if (!Array.isArray(vehicles)) {
+                        recommendationsContainer.html('<p class="text-danger">Немає даних або помилка формату.</p>');
+                        return;
+                    }
+
+                    vehicles = vehicles.sort(() => 0.5 - Math.random()).slice(0, 3);
+                    vehicles.forEach(vehicle => {
+                        const price = vehicle.price || 0;
+                        const imageSrc = vehicle.image || `https://via.placeholder.com/300x120?text=${encodeURIComponent(vehicle.name || 'Image Not Available')}`;
+                        const year = vehicle.year || 'Невідомо';
+                        const recommendationCard = `
+                                    <div class="col-md-4">
+                                        <div class="recommendation-card" data-code="${vehicle.code}">
+                                            <img src="${imageSrc}" alt="${vehicle.name || 'Автомобіль'}" onerror="this.src='https://via.placeholder.com/300x120?text=Image+Not+Found'">
+                                            <h5>${vehicle.name || 'Невідомо'}</h5>
+                                            <p><strong>Рік:</strong> ${year}</p>
+                                            <p>Ціна: ${typeof price === 'number' ? price.toLocaleString('uk-UA') : 'Невідомо'} грн</p>
+                                        </div>
+                                    </div>
+                                `;
+                        recommendationsContainer.append(recommendationCard);
+                    });
+
+                    $('.recommendation-card').on('click', function () {
+                        const code = $(this).data('code');
+                        window.location.href = `details.html?code=${code}`;
+                    });
+                },
+                error: function (xhr, status, error) {
+                    $('#recommendations-container').html('<p class="text-danger">Помилка завантаження рекомендацій: ' + error + '</p>');
+                    console.error('AJAX error:', status, error);
+                }
+            });
+        }
+
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            location.reload();
+        }
+
+        function updateCartIcon() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let cartIcon = $('.cart-icon');
+            let badge = cartIcon.find('.badge');
+            if (badge.length === 0) {
+                cartIcon.append('<span class="badge"></span>');
+                badge = cartIcon.find('.badge');
+            }
+            if (cart.length > 0) {
+                badge.text(cart.length).show();
+            } else {
+                badge.hide();
+            }
+        }
+
+        function updateFavoritesIcon() {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            let favoritesIcon = $('.favorites-icon');
+            let badge = favoritesIcon.find('.badge');
+            if (badge.length === 0) {
+                favoritesIcon.append('<span class="badge"></span>');
+                badge = favoritesIcon.find('.badge');
+            }
+            if (favorites.length > 0) {
+                badge.text(favorites.length).show();
+            } else {
+                badge.hide();
+            }
+        }
+    </script>
+</body>
+</html>

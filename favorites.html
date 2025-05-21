@@ -1,0 +1,491 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Обрані автомобілі</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+            color: #f1f1f1;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            padding: 40px 20px;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+            .navbar-brand:hover {
+                color: #00d4ff !important;
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+            }
+
+        .btn-secondary {
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border: 1px solid #00d4ff;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            padding: 8px 20px;
+            border-radius: 25px;
+        }
+
+            .btn-secondary:hover {
+                background: linear-gradient(145deg, #3a3a3a, #262626);
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+                border-color: #ff4d4d;
+            }
+
+        .favorites-list {
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 1.5rem;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+            .favorites-list:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #2c2c2c, #1e1e1e);
+            border-radius: 1rem;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease-out;
+        }
+
+            .favorite-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            }
+
+            .favorite-item img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 0.75rem;
+                margin-right: 25px;
+                border: 2px solid #00d4ff;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .favorite-item img:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+                }
+
+            .favorite-item .info {
+                flex-grow: 1;
+            }
+
+                .favorite-item .info h4 {
+                    margin: 0 0 10px 0;
+                    font-size: 1.4rem;
+                    color: #ffffff;
+                }
+
+                .favorite-item .info p {
+                    margin: 5px 0;
+                    font-size: 1.1rem;
+                    color: #cccccc;
+                }
+
+            .favorite-item .btn {
+                margin-left: 15px;
+                padding: 8px 20px;
+                font-size: 1.1rem;
+                border-radius: 25px;
+                transition: all 0.3s ease;
+            }
+
+        .btn-details {
+            background: linear-gradient(145deg, #00d4ff, #007bff);
+            color: #ffffff;
+        }
+
+            .btn-details:hover {
+                background: linear-gradient(145deg, #007bff, #00d4ff);
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 5px 20px rgba(0, 212, 255, 0.6);
+            }
+
+        .btn-remove {
+            background: linear-gradient(145deg, #ff4d4d, #ff8c00);
+            color: #ffffff;
+        }
+
+            .btn-remove:hover {
+                background: linear-gradient(145deg, #ff8c00, #ff4d4d);
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 5px 20px rgba(255, 77, 77, 0.6);
+            }
+
+        .cart-icon, .favorites-icon {
+            color: #ffffff;
+            margin-left: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+            .cart-icon:hover, .favorites-icon:hover {
+                transform: scale(1.3);
+                color: #00d4ff;
+            }
+
+            .cart-icon .badge, .favorites-icon .badge {
+                background-color: #ff4d4d;
+                color: white;
+                font-size: 0.9em;
+                padding: 5px 10px;
+                border-radius: 50%;
+                position: absolute;
+                top: -8px;
+                right: -15px;
+                animation: pop 0.4s ease;
+                box-shadow: 0 0 5px rgba(255, 77, 77, 0.7);
+            }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.6);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .custom-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+            border: 1px solid #00d4ff;
+            z-index: 1000;
+            display: none;
+            font-size: 1.1rem;
+            text-align: center;
+            animation: toastFade 2.5s ease forwards;
+        }
+
+            .custom-toast.success {
+                border-color: #00d4ff;
+            }
+
+            .custom-toast.error {
+                border-color: #ff4d4d;
+            }
+
+        @keyframes toastFade {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+
+            10% {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+
+            90% {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            padding: 25px;
+            border-top: 1px solid #00d4ff;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+            .footer p {
+                margin: 5px 0;
+                font-size: 1rem;
+            }
+
+            .footer a {
+                color: #00d4ff;
+                margin: 0 10px;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .footer a:hover {
+                    color: #ff4d4d;
+                }
+
+        .empty-message {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #888888;
+            padding: 40px;
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="catalog.html" class="btn btn-secondary">Назад</a>
+            <a class="navbar-brand" href="#">
+                Обрані автомобілі
+                <i class="fas fa-shopping-cart cart-icon" onclick="window.location.href='cart.html'"></i>
+                <i class="fas fa-heart favorites-icon" onclick="window.location.href='favorites.html'"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="favorites-list" id="favorites-list">
+            <!-- Список буде заповнено JavaScript -->
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-center p-3">
+        <p>САЛОН АВТОМОБІЛІВ</p>
+        <p>Київ, Україна</p>
+        <p>Phone: +380 484 7851</p>
+        <p>Email: [email protected]</p>
+        <div>
+            <p>Корисні посилання</p>
+            <a href="index.html">Головна</a> |
+            <a href="#">Про нас</a> |
+            <a href="#">Послуги</a> |
+            <a href="#">Умови користування</a> |
+            <a href="#">Політика конфіденційності</a>
+        </div>
+        <p>© 2024 Auto Salon. All rights reserved.</p>
+    </footer>
+
+    <div id="custom-toast" class="custom-toast"></div>
+
+    <script>
+        $(document).ready(function () {
+            loadFavorites();
+            updateCartIcon();
+            updateFavoritesIcon();
+
+            function loadFavorites() {
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                const favoritesList = $('#favorites-list');
+                favoritesList.empty();
+
+                if (favorites.length === 0) {
+                    favoritesList.html('<div class="empty-message">Список обраних автомобілів порожній.</div>');
+                    return;
+                }
+
+                let loadedCount = 0;
+                favorites.forEach(fav => {
+                    fetchVehicleData(fav.code, (vehicle) => {
+                        const imageSrc = vehicle.image || `https://via.placeholder.com/120x120?text=${encodeURIComponent(vehicle.name || 'Image Not Available')}`;
+                        const price = vehicle.price || fav.price || 'Невідомо';
+                        const name = vehicle.name || fav.name || 'Невідомо';
+                        const code = vehicle.code || fav.code;
+
+                        const itemHtml = `
+                                <div class="favorite-item" data-code="${code}">
+                                    <img src="${imageSrc}" alt="${name}" onerror="this.src='https://via.placeholder.com/120x120?text=Image+Not+Found'">
+                                    <div class="info">
+                                        <h4>${name}</h4>
+                                        <p><strong>Ціна:</strong> ${typeof price === 'number' ? price.toLocaleString('uk-UA') : price} грн</p>
+                                        <p><strong>Код:</strong> ${code}</p>
+                                    </div>
+                                    <button class="btn btn-details" onclick="window.location.href='details.html?code=${code}'">Деталі</button>
+                                    <button class="btn btn-remove" data-code="${code}">Видалити</button>
+                                </div>
+                            `;
+                        favoritesList.append(itemHtml);
+                        loadedCount++;
+                        if (loadedCount === favorites.length) {
+                            $('#favorites-list').on('click', '.btn-remove', function () {
+                                const code = $(this).data('code');
+                                deleteFavorite(code);
+                            });
+                        }
+                    }, () => {
+                        // Використовуємо дані з localStorage при помилці
+                        const fallbackVehicle = favorites.find(f => f.code === fav.code) || { code: fav.code, name: 'Невідомо', price: 'Невідомо' };
+                        const imageSrc = `https://via.placeholder.com/120x120?text=${encodeURIComponent(fallbackVehicle.name || 'Image Not Available')}`;
+                        const itemHtml = `
+                                <div class="favorite-item" data-code="${fav.code}">
+                                    <img src="${imageSrc}" alt="${fallbackVehicle.name}" onerror="this.src='https://via.placeholder.com/120x120?text=Image+Not+Found'">
+                                    <div class="info">
+                                        <h4>${fallbackVehicle.name}</h4>
+                                        <p><strong>Ціна:</strong> ${typeof fallbackVehicle.price === 'number' ? fallbackVehicle.price.toLocaleString('uk-UA') : fallbackVehicle.price} грн</p>
+                                        <p><strong>Код:</strong> ${fav.code}</p>
+                                    </div>
+                                    <button class="btn btn-details" onclick="window.location.href='details.html?code=${fav.code}'">Деталі</button>
+                                    <button class="btn btn-remove" data-code="${fav.code}">Видалити</button>
+                                </div>
+                            `;
+                        favoritesList.append(itemHtml);
+                        loadedCount++;
+                        showToast('Помилка підключення до сервера. Використано локальні дані.', 'error');
+                        if (loadedCount === favorites.length) {
+                            $('#favorites-list').on('click', '.btn-remove', function () {
+                                const code = $(this).data('code');
+                                deleteFavorite(code);
+                            });
+                        }
+                    });
+                });
+            }
+
+            function fetchVehicleData(code, successCallback, errorCallback) {
+                $.ajax({
+                    url: `https://localhost:7211/api/vehicles/${code}`,
+                    method: 'GET',
+                    success: function (response) {
+                        const vehicle = response.data || response || {};
+                        successCallback(vehicle);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Помилка завантаження даних авто:', error);
+                        errorCallback();
+                    }
+                });
+            }
+
+            function deleteFavorite(code) {
+                console.log('Спроба видалити авто з кодом:', code);
+
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                const initialLength = favorites.length;
+                favorites = favorites.filter(fav => String(fav.code) !== String(code));
+
+                if (favorites.length === initialLength) {
+                    showToast('Помилка: Автомобіль не знайдено в улюблених!', 'error');
+                    console.error('Автомобіль із кодом', code, 'не знайдено в улюблених');
+                    return;
+                }
+
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                console.log('Оновлений список улюблених:', favorites);
+
+                const item = $(`.favorite-item[data-code="${code}"]`);
+                if (item.length) {
+                    item.fadeOut(500, function () {
+                        $(this).remove();
+                        const remainingItems = $('#favorites-list .favorite-item');
+                        if (remainingItems.length === 0) {
+                            $('#favorites-list').html('<div class="empty-message">Список обраних автомобілів порожній.</div>');
+                        }
+                        updateFavoritesIcon();
+                        showToast('Автомобіль видалено з улюблених!', 'success');
+                    });
+                } else {
+                    console.error('Елемент із кодом', code, 'не знайдено в DOM');
+                    updateFavoritesIcon();
+                    showToast('Автомобіль видалено, але оновіть сторінку.', 'success');
+                }
+            }
+
+            function showToast(message, type = 'success') {
+                const toast = $('#custom-toast');
+                toast.removeClass('success error').addClass(type).text(message).show();
+                setTimeout(() => toast.hide(), 2500); // Ховаємо через 2.5 секунди
+            }
+
+            function updateCartIcon() {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                let cartIcon = $('.cart-icon');
+                let badge = cartIcon.find('.badge');
+                if (badge.length === 0) {
+                    cartIcon.append('<span class="badge"></span>');
+                    badge = cartIcon.find('.badge');
+                }
+                if (cart.length > 0) {
+                    badge.text(cart.length).show();
+                } else {
+                    badge.hide();
+                }
+            }
+
+            function updateFavoritesIcon() {
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                let favoritesIcon = $('.favorites-icon');
+                let badge = favoritesIcon.find('.badge');
+                if (badge.length === 0) {
+                    favoritesIcon.append('<span class="badge"></span>');
+                    badge = favoritesIcon.find('.badge');
+                }
+                if (favorites.length > 0) {
+                    badge.text(favorites.length).show();
+                } else {
+                    badge.hide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

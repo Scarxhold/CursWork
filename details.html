@@ -1,0 +1,574 @@
+﻿<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Деталі автомобіля</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #121212 0%, #1f1f1f 100%);
+            color: #f1f1f1;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            padding: 20px 10px;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            padding: 10px 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffffff !important;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+            .navbar-brand:hover {
+                color: #00d4ff !important;
+                transform: scale(1.05);
+                text-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+            }
+
+        .back-btn {
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border: 1px solid #00d4ff;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            padding: 8px 20px;
+            border-radius: 25px;
+        }
+
+            .back-btn:hover {
+                background: linear-gradient(145deg, #3a3a3a, #262626);
+                box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+                transform: translateY(-2px);
+            }
+
+        .vehicle-card {
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 1rem;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            border: 2px solid #00d4ff;
+        }
+
+            .vehicle-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+            }
+
+        .vehicle-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 20px;
+            border: 2px solid #00d4ff;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .vehicle-image:hover {
+                transform: scale(1.03);
+                box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            }
+
+        .vehicle-title {
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: fadeInDown 0.5s ease-in-out;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .vehicle-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+            .vehicle-specs p {
+                margin: 8px 0;
+                font-size: 1.1rem;
+                color: #e0e0e0;
+                animation: fadeIn 0.7s ease-in-out;
+            }
+
+                .vehicle-specs p strong {
+                    color: #00d4ff;
+                    font-weight: 600;
+                }
+
+        .vehicle-description {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(44, 44, 44, 0.9);
+            border-radius: 0.5rem;
+            text-align: left;
+            font-size: 1rem;
+            color: #e0e0e0;
+            border-left: 4px solid #00d4ff;
+            animation: fadeIn 0.9s ease-in-out;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        #buyButton, #favoriteButton {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 25px;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+            width: 180px;
+            text-align: center;
+        }
+
+        #buyButton {
+            background: linear-gradient(145deg, #00d4ff, #007bff);
+        }
+
+            #buyButton:hover {
+                background: linear-gradient(145deg, #007bff, #00d4ff);
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 5px 20px rgba(0, 212, 255, 0.8);
+            }
+
+        #favoriteButton {
+            background: linear-gradient(145deg, #ff4d4d, #ff8c00);
+        }
+
+            #favoriteButton:hover {
+                background: linear-gradient(145deg, #ff8c00, #ff4d4d);
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 5px 20px rgba(255, 77, 77, 0.8);
+            }
+
+        .comments-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(145deg, #1e1e1e, #2c2c2c);
+            border-radius: 0.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+            .comments-section h3 {
+                color: #ffffff;
+                font-size: 1.5rem;
+                text-align: center;
+                margin-bottom: 20px;
+                text-transform: uppercase;
+                text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
+            }
+
+        .comment {
+            background: #2c2c2c;
+            padding: 10px;
+            border-radius: 0.5rem;
+            margin-bottom: 10px;
+            border-left: 3px solid #00d4ff;
+            animation: fadeIn 0.7s ease-in-out;
+        }
+
+            .comment p {
+                margin: 5px 0;
+                font-size: 0.95rem;
+                color: #e0e0e0;
+            }
+
+        .add-comment-form {
+            margin-top: 15px;
+        }
+
+            .add-comment-form textarea {
+                width: 100%;
+                padding: 10px;
+                border-radius: 0.5rem;
+                border: 1px solid #00d4ff;
+                background: #1e1e1e;
+                color: #e0e0e0;
+                resize: vertical;
+                margin-bottom: 10px;
+            }
+
+            .add-comment-form button {
+                background: linear-gradient(145deg, #00d4ff, #007bff);
+                border: none;
+                padding: 8px 20px;
+                border-radius: 25px;
+                color: #ffffff;
+                transition: all 0.3s ease;
+            }
+
+                .add-comment-form button:hover {
+                    background: linear-gradient(145deg, #007bff, #00d4ff);
+                    transform: translateY(-2px);
+                    box-shadow: 0 3px 10px rgba(0, 212, 255, 0.8);
+                }
+
+        .cart-icon, .favorites-icon {
+            color: #ffffff;
+            margin-left: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.2s ease, color 0.3s ease;
+        }
+
+            .cart-icon:hover, .favorites-icon:hover {
+                transform: scale(1.2);
+                color: #00d4ff;
+            }
+
+            .cart-icon .badge, .favorites-icon .badge {
+                background-color: #ff4d4d;
+                color: white;
+                font-size: 0.8em;
+                padding: 4px 8px;
+                border-radius: 50%;
+                position: absolute;
+                top: -5px;
+                right: -10px;
+                animation: pop 0.3s ease;
+            }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            background: linear-gradient(to right, #1a1a1a, #2c2c2c);
+            padding: 20px;
+            border-top: 1px solid #00d4ff;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+            .footer p {
+                margin: 5px 0;
+                font-size: 0.9rem;
+            }
+
+            .footer a {
+                color: #00d4ff;
+                transition: color 0.3s ease;
+                margin: 0 10px;
+            }
+
+                .footer a:hover {
+                    color: #ff4d4d;
+                }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a href="catalog.html" class="back-btn">← Назад</a>
+            <a class="navbar-brand" href="#">
+                Деталі автомобіля
+                <i class="fas fa-shopping-cart cart-icon" onclick="window.location.href='cart.html'"></i>
+                <i class="fas fa-heart favorites-icon" onclick="window.location.href='favorites.html'"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="vehicle-card">
+            <img src="placeholder.jpg" alt="Автомобіль" class="vehicle-image" id="vehicle-image">
+            <h1 class="vehicle-title" id="vehicle-name">Завантаження...</h1>
+            <div class="vehicle-specs">
+                <p><strong>Код:</strong> <span id="vehicle-code">Невідомо</span></p>
+                <p><strong>Ціна:</strong> <span id="vehicle-price">Невідомо</span> грн</p>
+                <p><strong>Рік:</strong> <span id="vehicle-year">Невідомо</span></p>
+                <p><strong>Пробіг:</strong> <span id="vehicle-mileage">Невідомо</span> км</p>
+                <p><strong>Категорія:</strong> <span id="vehicle-category">Невідомо</span></p>
+            </div>
+            <div class="vehicle-description">
+                <strong>Опис:</strong> <span id="vehicle-description">Немає опису.</span>
+            </div>
+            <div class="action-buttons">
+                <button id="buyButton" class="btn btn-primary">Придбати зараз</button>
+                <button id="favoriteButton">Додати в обране</button>
+            </div>
+            <div class="comments-section">
+                <h3>Коментарі</h3>
+                <div id="comments-container"></div>
+                <div class="add-comment-form">
+                    <textarea id="new-comment" rows="3" placeholder="Додайте свій коментар..."></textarea>
+                    <button id="submit-comment">Надіслати</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-dark text-center p-3">
+        <p>САЛОН АВТОМОБІЛІВ</p>
+        <p>Київ, Україна</p>
+        <p>Phone: +380 484 7851</p>
+        <p>Email: info@autosalon.ua</p>
+        <div>
+            <p>Корисні посилання</p>
+            <a href="index.html">Головна</a> |
+            <a href="#">Про нас</a> |
+            <a href="#">Послуги</a> |
+            <a href="#">Умови користування</a> |
+            <a href="#">Політика конфіденційності</a>
+        </div>
+        <p>© 2024 Auto Salon. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+
+            if (code) {
+                $.ajax({
+                    url: `https://localhost:7211/api/vehicles/${code}`,
+                    method: 'GET',
+                    success: function (vehicle) {
+                        $('#vehicle-image').attr('src', vehicle.image || 'https://via.placeholder.com/600x400?text=Завантаження...');
+                        $('#vehicle-name').text(vehicle.name || 'Невідомо');
+                        $('#vehicle-code').text(vehicle.code || 'Невідомо');
+                        $('#vehicle-price').text(typeof vehicle.price === 'number' ? vehicle.price.toLocaleString('uk-UA') : 'Невідомо');
+                        $('#vehicle-year').text(vehicle.year || 'Невідомо');
+                        $('#vehicle-mileage').text(vehicle.mileage || 'Невідомо');
+                        $('#vehicle-category').text(vehicle.categoryName || 'Невідомо');
+
+                        // Логіка для опису
+                        let description = vehicle.description || getDescriptionByCode(vehicle.code);
+                        $('#vehicle-description').text(description);
+
+                        // Завантаження коментарів
+                        loadComments(code);
+                    },
+                    error: function () {
+                        $('.vehicle-card').html('<p class="text-danger">Помилка завантаження деталей.</p>');
+                    }
+                });
+            } else {
+                $('.vehicle-card').html('<p class="text-danger">Код автомобіля не вказано.</p>');
+            }
+
+            updateCartIcon();
+            updateFavoritesIcon();
+
+            // Обробка додавання в кошик
+            $('#buyButton').click(function () {
+                let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                const priceText = $('#vehicle-price').text().replace(/\s/g, '').replace('грн', '');
+                const vehicle = {
+                    code: $('#vehicle-code').text() || 'Невідомо',
+                    name: $('#vehicle-name').text() || 'Невідомо',
+                    price: parseFloat(priceText) || 0,
+                    image: $('#vehicle-image').attr('src') // Додаємо зображення
+                };
+                console.log('Adding to cart:', vehicle);
+
+                if (!cart.some(item => item.code === vehicle.code)) {
+                    cart.push(vehicle);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert('Автомобіль додано до кошика!');
+                    updateCartIcon();
+                } else {
+                    alert('Цей автомобіль уже в кошику!');
+                }
+
+                window.location.href = 'cart.html';
+            });
+
+            // Обробка додавання в обране
+            $('#favoriteButton').click(function () {
+                let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+                const vehicle = {
+                    code: $('#vehicle-code').text(),
+                    name: $('#vehicle-name').text(),
+                    price: parseFloat($('#vehicle-price').text().replace(/\s/g, '')) || 0,
+                    image: $('#vehicle-image').attr('src') // Додаємо зображення
+                };
+                console.log('Adding to favorites:', vehicle);
+                if (!favorites.some(f => f.code === vehicle.code)) {
+                    favorites.push(vehicle);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    alert('Автомобіль додано в обране!');
+                    updateFavoritesIcon();
+                } else {
+                    alert('Цей автомобіль уже в обраних!');
+                }
+            });
+
+            // Додавання коментаря
+            $('#submit-comment').click(function () {
+                const commentText = $('#new-comment').val().trim();
+                if (commentText) {
+                    let comments = JSON.parse(localStorage.getItem('comments') || '{}');
+                    if (!comments[code]) comments[code] = [];
+                    comments[code].push({
+                        text: commentText,
+                        date: new Date().toLocaleString('uk-UA', { timeZone: 'Europe/Kiev' }),
+                        author: 'Ви'
+                    });
+                    localStorage.setItem('comments', JSON.stringify(comments));
+                    $('#new-comment').val('');
+                    loadComments(code);
+                }
+            });
+        });
+
+        // Логіка генерації опису залежно від коду автомобіля
+        function getDescriptionByCode(code) {
+            switch (code) {
+                case '1': // Toyota Corolla
+                    return 'Toyota Corolla – це втілення надійності та економічності. Ідеальний вибір для тих, хто шукає практичний автомобіль для щоденних поїздок. З низьким споживанням палива та перевіреною часом репутацією, Corolla забезпечить комфорт і впевненість на дорозі.';
+                case '2': // Mercedes GLC
+                    return 'Mercedes GLC – це поєднання елегантності, комфорту та передових технологій. Цей SUV створений для тих, хто цінує розкіш у кожній деталі. Сучасні системи безпеки, просторий салон і потужний двигун роблять GLC ідеальним для довгих подорожей і міських поїздок.';
+                case '3': // BMW X5
+                    return 'BMW X5 – це розкішний кросовер для тих, хто прагне максимальної продуктивності та статусу. З потужним двигуном, передовими технологіями та елегантним дизайном, X5 створений для тих, хто хоче виділятися. Відчуйте драйв і комфорт на кожному кілометрі!';
+                case '4': // Tesla Model S
+                    return 'Tesla Model S – це майбутнє автомобільної індустрії! Електрична потужність, інноваційні технології та неймовірна швидкість – усе це в одному автомобілі. З запасом ходу, що вражає, і автопілотом, Model S зробить ваші поїздки безпечними та захоплюючими.';
+                case '5': // Audi Q7
+                    return 'Audi Q7 – це ідеальний вибір для тих, хто шукає просторий і розкішний SUV. Завдяки передовій системі quattro, ви отримаєте неперевершену керованість у будь-яких умовах. Просторий салон і сучасні технології зроблять кожну подорож комфортною.';
+                case '6': // Porsche 911 Turbo
+                    return 'Porsche 911 Turbo – це легенда серед спорткарів! Його агресивний дизайн і приголомшлива швидкість створені для справжніх поціновувачів драйву. З двигуном, що забезпечує блискавичне прискорення, 911 Turbo подарує вам незабутні емоції на дорозі.';
+                case '7': // Volkswagen Golf R
+                    return 'Volkswagen Golf R – це компактний хетчбек із душею спорткара. Потужний двигун, спортивна підвіска та стильний дизайн роблять його ідеальним для тих, хто хоче поєднати практичність із драйвом. Відчуйте адреналін у кожному повороті!';
+                case '8': // Lexus RX 350
+                    return 'Lexus RX 350 – це розкішний кросовер, який поєднує в собі комфорт і стиль. Його витончений дизайн, преміальний салон і плавна їзда зроблять ваші поїздки справжнім задоволенням. Ідеальний вибір для тих, хто цінує вишуканість.';
+                case '9': // Ford Mustang Mach-E
+                    return 'Ford Mustang Mach-E – це електричний кросовер із душею легендарного Mustang. Поєднання потужності, стилю та екологічності робить його унікальним. З вражаючим запасом ходу та швидким прискоренням, Mach-E готовий до будь-яких пригод.';
+                case '10': // Hyundai Tucson
+                    return 'Hyundai Tucson – це сучасний SUV із футуристичним дизайном і передовими технологіями. Просторий салон, економічний двигун і безліч функцій безпеки роблять його ідеальним для сімейних поїздок. Tucson – ваш надійний супутник на дорозі!';
+                case '11': // Jaguar F-Pace
+                    return 'Jaguar F-Pace – це кросовер, який поєднує в собі спортивний характер і розкіш. Його елегантний дизайн, потужний двигун і вишуканий інтер’єр створені для тих, хто хоче виділятися. F-Pace – це стиль і продуктивність в одному флаконі.';
+                case '12': // Nissan Leaf
+                    return 'Nissan Leaf – це один із найпопулярніших електромобілів у світі. Економічний, екологічний і простий у використанні, Leaf ідеально підходить для міських поїздок. З технологією e-Pedal і великим запасом ходу, він зробить ваші поїздки легкими та приємними.';
+                case '13': // Lamborghini Urus
+                    return 'Lamborghini Urus – це перший у світі супер-SUV! Його приголомшливий дизайн і неймовірна швидкість роблять його унікальним. З двигуном V8 і розкішним салоном, Urus створений для тих, хто хоче поєднати практичність із духом суперкара.';
+                case '14': // Subaru Outback
+                    return 'Subaru Outback – це універсал для тих, хто любить пригоди. Завдяки повному приводу та високому кліренсу, Outback готовий до будь-яких доріг. Просторий багажник і надійність роблять його ідеальним для активного відпочинку.';
+                case '15': // Volvo XC90
+                    return 'Volvo XC90 – це втілення скандинавської розкоші та безпеки. Цей SUV пропонує просторий салон, сучасні технології та найвищий рівень безпеки. XC90 – ідеальний вибір для тих, хто хоче подорожувати з комфортом і впевненістю.';
+                case '16': // Mazda CX-5
+                    return 'Mazda CX-5 – це кросовер, який поєднує в собі елегантність і спортивний характер. Його динамічний дизайн, комфортний салон і чутливе керування зроблять кожну поїздку приємною. CX-5 – це стиль і функціональність в одному автомобілі.';
+                case '17': // Ferrari 488 Pista
+                    return 'Ferrari 488 Pista – це суперкар для справжніх ентузіастів швидкості. З двигуном V8 і аеродинамічним дизайном, Pista забезпечує неймовірне прискорення та керованість. Це авто для тих, хто хоче відчути справжній дух Ferrari.';
+                case '18': // Kia Sportage
+                    return 'Kia Sportage – це компактний кросовер із сучасним дизайном і передовими технологіями. Просторий салон, економічний двигун і безліч опцій роблять його ідеальним для міських і заміських поїздок. Sportage – ваш стильний спутник!';
+                case '19': // Rivian R1T
+                    return 'Rivian R1T – це електричний пікап, який змінює уявлення про вантажівки. З вражаючим запасом ходу, потужністю та можливістю проїхати будь-де, R1T ідеально підходить для пригод. Це авто для тих, хто хоче поєднати технології та практичність.';
+                case '20': // Honda Civic Type R
+                    return 'Honda Civic Type R – це хетчбек для любителів швидкості. Його агресивний дизайн, спортивна підвіска та потужний двигун створені для трекових заїздів і міських доріг. Type R – це драйв і стиль у кожній деталі!';
+                default:
+                    return 'Цей автомобіль – чудовий вибір для тих, хто шукає баланс між стилем, комфортом і продуктивністю. Дізнайтесь більше, записавшись на тест-драйв!';
+            }
+        }
+
+        function loadComments(code) {
+            let comments = JSON.parse(localStorage.getItem('comments') || '{}');
+            let commentsContainer = $('#comments-container');
+            commentsContainer.empty();
+            if (comments[code]) {
+                comments[code].forEach(comment => {
+                    commentsContainer.append(`
+                                <div class="comment">
+                                    <p><strong>${comment.author}</strong> (${comment.date}):</p>
+                                    <p>${comment.text}</p>
+                                </div>
+                            `);
+                });
+            }
+        }
+
+        function updateCartIcon() {
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            let cartIcon = $('.cart-icon');
+            let badge = cartIcon.find('.badge');
+            if (badge.length === 0) {
+                cartIcon.append('<span class="badge"></span>');
+                badge = cartIcon.find('.badge');
+            }
+            if (cart.length > 0) {
+                badge.text(cart.length).show();
+            } else {
+                badge.hide();
+            }
+        }
+
+        function updateFavoritesIcon() {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            let favoritesIcon = $('.favorites-icon');
+            let badge = favoritesIcon.find('.badge');
+            if (badge.length === 0) {
+                favoritesIcon.append('<span class="badge"></span>');
+                badge = favoritesIcon.find('.badge');
+            }
+            if (favorites.length > 0) {
+                badge.text(favorites.length).show();
+            } else {
+                badge.hide();
+            }
+        }
+    </script>
+</body>
+</html>
